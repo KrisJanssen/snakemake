@@ -1,6 +1,6 @@
 rule all:
     input:
-        "data.10.transformed.txt"
+        "data.15.transformed.txt"
 
 def get_iteration_input(wildcards):
     i = int(wildcards.i)
@@ -14,3 +14,6 @@ rule iterate:
         get_iteration_input
     output:
         "data.{i}.transformed.txt"
+    shell:
+        "cat {input} >> {output} &&"
+        "echo 'This is file {wildcards.i}!' >> {output}"
