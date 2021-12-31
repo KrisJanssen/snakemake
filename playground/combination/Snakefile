@@ -1,0 +1,24 @@
+RANGE = range(0, 50)
+
+rule all:
+    input:
+        "consolidated.txt"
+
+rule iterate:
+    input:
+        "data.txt"
+    output:
+        "data.{idx}.transformed.txt"
+    shell:
+        #"sleep $[ ( $RANDOM % 10 )  + 1 ]s && "
+        "sleep 10 && "
+        "cat {input} >> {output} && "
+        "echo '{wildcards.idx}' >> {output}"
+
+rule consolidate:
+    input:
+        expand('data.{idx}.transformed.txt', idx = RANGE)
+    output:
+        "consolidated.txt"
+    shell:
+        "cat {input} >> {output}"
